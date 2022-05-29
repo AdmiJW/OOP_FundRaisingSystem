@@ -13,6 +13,8 @@ import source.classes.FPXPayment;
 import source.FundRaiserSystem;
 import source.abstracts.AbstractPayment;
 
+import source.classes.Util;
+
 public class Test1 {
     static int testcase = 1;
 
@@ -156,26 +158,26 @@ public class Test1 {
 
     private static void test_UserClass() {
         String data = user.serialize();
-        assertTrue(data.equals(userialized), "test_UserClass() - Problem in serialize() of User");
+        Util.assertTrue(data.equals(userialized), "test_UserClass() - Problem in serialize() of User", testcase++);
 
         String[] rawargs = data.split("\n");
         String[] args = Arrays.copyOfRange(rawargs, 1, rawargs.length);
         User reconstructed = User.deserialize(args);
         
-        assertTrue(reconstructed.serialize().equals(userialized), "test_UserClass() - Problem in deserialize() of User");
+        Util.assertTrue(reconstructed.serialize().equals(userialized), "test_UserClass() - Problem in deserialize() of User", testcase++);
         System.out.println();
     }
 
 
     private static void test_AdminClass() {
         String data = admin.serialize();
-        assertTrue(data.equals(aasserted), "test_AdminClass() - Problem in serialize() of Admin");
+        Util.assertTrue(data.equals(aasserted), "test_AdminClass() - Problem in serialize() of Admin", testcase++);
 
         String[] rawargs = data.split("\n");
         String[] args = Arrays.copyOfRange(rawargs, 1, rawargs.length);
         Admin reconstructed = Admin.deserialize(args);
         
-        assertTrue(reconstructed.serialize().equals(aasserted), "test_AdminClass() - Problem in deserialize() of Admin");
+        Util.assertTrue(reconstructed.serialize().equals(aasserted), "test_AdminClass() - Problem in deserialize() of Admin", testcase++);
         System.out.println();
     }
 
@@ -183,75 +185,70 @@ public class Test1 {
 
     private static void test_CategoryPoolClass() {
         String data = cat.serialize();
-        assertTrue(data.equals(casserted), "test_CategoryPoolClass() - Problem in serialize() of CategoryPool");
+        Util.assertTrue(data.equals(casserted), "test_CategoryPoolClass() - Problem in serialize() of CategoryPool", testcase++);
 
         String[] rawargs = data.split("\n");
         String[] args = Arrays.copyOfRange(rawargs, 1, rawargs.length);
         CategoryPool reconstructed = CategoryPool.deserialize(args);
         
-        assertTrue(reconstructed.serialize().equals(casserted), "test_CategoryPoolClass() - Problem in deserialize() of CategoryPool");
+        Util.assertTrue(reconstructed.serialize().equals(casserted), "test_CategoryPoolClass() - Problem in deserialize() of CategoryPool", testcase++);
         System.out.println();
     }
 
 
     private static void test_ApplicationClass() {
         String data = application.serialize();
-        assertTrue(data.equals(apasserted), "test_ApplicationClass() - Problem in serialize() of Application");
+        Util.assertTrue(data.equals(apasserted), "test_ApplicationClass() - Problem in serialize() of Application", testcase++);
 
         String[] rawargs = data.split("\n");
         String[] args = Arrays.copyOfRange(rawargs, 1, rawargs.length);
         Application reconstructed = Application.deserialize(args);
         
-        assertTrue(reconstructed.serialize().equals(apasserted), "test_ApplicationClass() - Problem in deserialize() of Application");
+        Util.assertTrue(reconstructed.serialize().equals(apasserted), "test_ApplicationClass() - Problem in deserialize() of Application", testcase++);
         System.out.println();
     }
 
 
     private static void test_FPXPaymentClass() {
         String data = fpxpayment.serialize();
-        assertTrue(data.equals(fpxserialized), "test_FPXPaymentClass() - Problem in serialize() of FPXPayment");
+        Util.assertTrue(data.equals(fpxserialized), "test_FPXPaymentClass() - Problem in serialize() of FPXPayment", testcase++);
 
         String[] rawargs = data.split("\n");
         String[] args = Arrays.copyOfRange(rawargs, 1, rawargs.length);
         AbstractPayment reconstructed = FPXPayment.deserialize(args);
         
-        assertTrue(reconstructed.serialize().equals(fpxserialized), "test_FPXPaymentClass() - Problem in deserialize() of FPXPayment");
-        assertTrue(reconstructed.getReceipt().equals(fpxreceipt), "test_FPXPaymentClass() - Problem in getReceipt() of FPXPayment");
+        Util.assertTrue(reconstructed.serialize().equals(fpxserialized), "test_FPXPaymentClass() - Problem in deserialize() of FPXPayment", testcase++);
+        Util.assertTrue(reconstructed.getReceipt().equals(fpxreceipt), "test_FPXPaymentClass() - Problem in getReceipt() of FPXPayment", testcase++);
         System.out.println();
     }
 
 
     private static void test_EwalletPaymentClass() {
         String data = ewallet.serialize();
-        assertTrue(data.equals(ewserialized), "test_EwalletPaymentClass() - Problem in serialize() of EWalletPayment");
+        Util.assertTrue(data.equals(ewserialized), "test_EwalletPaymentClass() - Problem in serialize() of EWalletPayment", testcase++);
 
         String[] rawargs = data.split("\n");
         String[] args = Arrays.copyOfRange(rawargs, 1, rawargs.length);
         AbstractPayment reconstructed = EWalletPayment.deserialize(args);
         
-        assertTrue(reconstructed.serialize().equals(ewserialized), "test_EwalletPaymentClass() - Problem in deserialize() of EWalletPayment");
-        assertTrue(reconstructed.getReceipt().equals(ewreceipt), "test_EwalletPaymentClass() - Problem in getReceipt() of EWalletPayment");
+        Util.assertTrue(reconstructed.serialize().equals(ewserialized), "test_EwalletPaymentClass() - Problem in deserialize() of EWalletPayment", testcase++);
+        Util.assertTrue(reconstructed.getReceipt().equals(ewreceipt), "test_EwalletPaymentClass() - Problem in getReceipt() of EWalletPayment", testcase++);
         System.out.println();
     }
 
 
     private static void test_DonationClass() {
         String data = donation.serialize();
-        assertTrue(data.equals(dserialized), "test_DonationClass() - Problem in serialize() of Donation");
+        Util.assertTrue(data.equals(dserialized), "test_DonationClass() - Problem in serialize() of Donation", testcase++);
 
         String[] rawargs = data.split("\n");
         String[] args = Arrays.copyOfRange(rawargs, 1, rawargs.length);
         Donation reconstructed = Donation.deserialize(args);
         
-        assertTrue(reconstructed.serialize().equals(dserialized), "test_DonationClass() - Problem in deserialize() of Donation");
+        Util.assertTrue(reconstructed.serialize().equals(dserialized), "test_DonationClass() - Problem in deserialize() of Donation", testcase++);
         System.out.println();
     }
 
 
 
-
-    private static void assertTrue(boolean condition, String message) {
-        if (!condition) System.out.printf("(X) Test case #%d FAILED: %s\n", testcase++, message);
-        else System.out.printf("(OK) Test case #%d PASSED.\n", testcase++);
-    }
 }
