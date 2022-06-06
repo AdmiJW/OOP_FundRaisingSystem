@@ -85,7 +85,7 @@ public class Donation implements ISerializable, IStatus {
 
         // HEADER, ID, donor, category, status, description, admin, payment...N,
         return String.format(
-            "Donation %d\n%d\n%s\n%s\n%s\n%s\n%s\n%s",
+            "Donation %d\n%d\n%s\n%s\n%s\n%s\n%s\n%s\n",
             6 + lines,
             id,
             donor.getID(),

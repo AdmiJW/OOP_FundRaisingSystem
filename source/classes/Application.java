@@ -92,7 +92,7 @@ public class Application implements ISerializable, IStatus {
     public String serialize() {
         // HEADER, ID, Description, requestAmount, catagory, requestor, dateTime, status, statusDesc, Admin
         return String.format(
-            "Application 9\n%d\n%s\n%.2f\n%s\n%d\n%d\n%s\n%s\n%d",
+            "Application 9\n%d\n%s\n%.2f\n%s\n%d\n%d\n%s\n%s\n%d\n",
             id,
             description,
             requestAmount,

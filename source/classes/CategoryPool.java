@@ -80,7 +80,7 @@ public class CategoryPool implements ISerializable {
     @Override
     public String serialize() {
         return String.format(
-            "Category 2\n%s\n%.2f",
+            "Category 2\n%s\n%.2f\n",
             category.name(), balance
         );
     }

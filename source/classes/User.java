@@ -45,7 +45,7 @@ public class User extends AbstractUser {
     @Override
     public String serialize() {
         return String.format(
-            "User 6\n%d\n%s\n%s\n%s\n%s\n%s",
+            "User 6\n%d\n%s\n%s\n%s\n%s\n%s\n",
             id, name, ic, phone, email, password
         );
     }
