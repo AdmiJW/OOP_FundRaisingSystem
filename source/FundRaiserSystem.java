@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.io.File;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Serializable;
 
 import source.enums.Category;
 import source.interfaces.ISerializable;
@@ -45,91 +45,29 @@ public class FundRaiserSystem {
     //* ======================
     //* Save and load files
     //* ======================
-    public static void saveAdmins() {
-        BufferedWriter output = null;
-        try {
-            File file = new File( ADMIN_PATH );
-            output = new BufferedWriter( new FileWriter(file) );
-            for ( Admin a: admins.values() ) output.write( a.serialize() );
-        } catch (IOException e) {
+    
+    //* The general save method that will be called by the other variants, such as saveAdmins */
+    @SuppressWarnings("rawtypes")
+    private static void save(String path, Map toSave) {
+        try (PrintWriter pw = new PrintWriter( path )) {
+            for (Object o: toSave.values() ) pw.println( ((ISerializable)o).serialize() );
+        } 
+        catch (IOException e) {
             System.err.println("*** FATAL ERROR ***\nFailed to save admin.");
             e.printStackTrace();
-        } finally {
-            try { output.close(); }
-            catch (IOException e) { e.printStackTrace(); }
         }
     }
 
+    public static void saveAdmins() { save(ADMIN_PATH, admins ); }
+    public static void saveUsers() { save(USER_PATH, users ); }
+    public static void saveDonations() { save(DONATION_PATH, donations ); }
+    public static void saveCategory() { save(CATEGORY_PATH, categories ); }
+    public static void saveApplications() { save(APPLICATION_PATH, applications ); }
 
-    public static void saveUsers() {
-        BufferedWriter output = null;
-        try {
-            File file = new File( USER_PATH );
-            output = new BufferedWriter( new FileWriter(file) );
-            for ( Admin a: admins.values() ) output.write( a.serialize() );
-        } catch (IOException e) {
-            System.err.println("*** FATAL ERROR ***\nFailed to save users.");
-            e.printStackTrace();
-        } finally {
-            try { output.close(); }
-            catch (IOException e) { e.printStackTrace(); }
-        }
-    }
-
-
-    public static void saveDonations() {
-        BufferedWriter output = null;
-        try {
-            File file = new File( DONATION_PATH );
-            output = new BufferedWriter( new FileWriter(file) );
-            for ( Admin a: admins.values() ) output.write( a.serialize() );
-        } catch (IOException e) {
-            System.err.println("*** FATAL ERROR ***\nFailed to save donations.");
-            e.printStackTrace();
-        } finally {
-            try { output.close(); }
-            catch (IOException e) { e.printStackTrace(); }
-        }
-    }
-
-
-    public static void saveCategory() {
-        BufferedWriter output = null;
-        try {
-            File file = new File( CATEGORY_PATH );
-            output = new BufferedWriter( new FileWriter(file) );
-            for ( Admin a: admins.values() ) output.write( a.serialize() );
-        } catch (IOException e) {
-            System.err.println("*** FATAL ERROR ***\nFailed to save categories.");
-            e.printStackTrace();
-        } finally {
-            try { output.close(); }
-            catch (IOException e) { e.printStackTrace(); }
-        }
-    }
-
-
-    public static void saveApplications() {
-        BufferedWriter output = null;
-        try {
-            File file = new File( APPLICATION_PATH );
-            output = new BufferedWriter( new FileWriter(file) );
-            for ( Admin a: admins.values() ) output.write( a.serialize() );
-        } catch (IOException e) {
-            System.err.println("*** FATAL ERROR ***\nFailed to save applications.");
-            e.printStackTrace();
-        } finally {
-            try { output.close(); }
-            catch (IOException e) { e.printStackTrace(); }
-        }
-    }
 
 
     public static void loadAdmins() {
-        Scanner scan = null;
-        try {
-            scan = new Scanner( new File(ADMIN_PATH) );
-
+        try (Scanner scan = new Scanner( new File(ADMIN_PATH ) ) ) {
             while (scan.hasNextLine()) {
                 String[] type = scan.nextLine().split(" ");
                 if (type.length != 2) return;
@@ -140,73 +78,61 @@ public class FundRaiserSystem {
         } catch (IOException e) {
             System.err.println("*** FATAL ERROR ***\nFailed to load admins.");
             e.printStackTrace();
-        } finally { scan.close(); }
+        }
     }
 
 
     public static void loadUsers() {
-        Scanner scan = null;
-        try {
-            scan = new Scanner( new File(USER_PATH) );
-
+        try (Scanner scan = new Scanner( new File(USER_PATH ) ) ) {
             while (scan.hasNextLine()) {
                 String[] type = scan.nextLine().split(" ");
                 if (type.length != 2) return;
                 int n = Integer.parseInt(type[1]);
-                User u = User.deserialize( readNLines(scan, n) );
-                users.put( u.getID(), u );
+                User a = User.deserialize( readNLines(scan, n) );
+                users.put( a.getID(), a );
             }
         } catch (IOException e) {
             System.err.println("*** FATAL ERROR ***\nFailed to load users.");
             e.printStackTrace();
-        } finally { scan.close(); }
+        }
     }
 
 
     public static void loadDonations() {
-        Scanner scan = null;
-        try {
-            scan = new Scanner( new File(DONATION_PATH) );
-
+        try (Scanner scan = new Scanner( new File(DONATION_PATH ) ) ) {
             while (scan.hasNextLine()) {
                 String[] type = scan.nextLine().split(" ");
                 if (type.length != 2) return;
                 int n = Integer.parseInt(type[1]);
-                Donation d = Donation.deserialize( readNLines(scan, n) );
-                donations.put( d.getID(), d );
+                Donation a = Donation.deserialize( readNLines(scan, n) );
+                donations.put( a.getID(), a );
             }
         } catch (IOException e) {
             System.err.println("*** FATAL ERROR ***\nFailed to load donations.");
             e.printStackTrace();
-        } finally { scan.close(); }
+        }
     }
 
 
     public static void loadCategories() {
-        Scanner scan = null;
-        try {
-            scan = new Scanner( new File(CATEGORY_PATH) );
-
+        try (Scanner scan = new Scanner( new File(CATEGORY_PATH ) ) ) {
             while (scan.hasNextLine()) {
                 String[] type = scan.nextLine().split(" ");
                 if (type.length != 2) return;
                 int n = Integer.parseInt(type[1]);
-                CategoryPool c = CategoryPool.deserialize( readNLines(scan, n) );
-                categories.put( c.getCategory(), c );
+                CategoryPool a = CategoryPool.deserialize( readNLines(scan, n) );
+                categories.put( a.getCategory(), a );
             }
         } catch (IOException e) {
-            System.err.println("*** FATAL ERROR ***\nFailed to load category pools.");
+            System.err.println("*** FATAL ERROR ***\nFailed to load categories.");
             e.printStackTrace();
-        } finally { scan.close(); }
+        }
     }
 
 
 
     public static void loadApplications() {
-        Scanner scan = null;
-        try {
-            scan = new Scanner( new File(CATEGORY_PATH) );
-
+        try (Scanner scan = new Scanner( new File(APPLICATION_PATH ) ) ) {
             while (scan.hasNextLine()) {
                 String[] type = scan.nextLine().split(" ");
                 if (type.length != 2) return;
@@ -217,7 +143,7 @@ public class FundRaiserSystem {
         } catch (IOException e) {
             System.err.println("*** FATAL ERROR ***\nFailed to load applications.");
             e.printStackTrace();
-        } finally { scan.close(); }
+        }
     }
 
 
