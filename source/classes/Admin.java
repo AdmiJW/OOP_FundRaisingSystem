@@ -27,7 +27,7 @@ public class Admin extends AbstractUser {
     @Override
     public String serialize() {
         return String.format(
-            "Admin 6\n%d\n%s\n%s\n%s\n%s\n%s\n",
+            "Admin 6\n%d\n%s\n%s\n%s\n%s\n%s",
             id, name, ic, phone, email, password
         );
     }

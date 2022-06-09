@@ -58,7 +58,7 @@ public class FPXPayment extends AbstractPayment {
 
     @Override
     public String serialize() {
-        return String.format("PaymentFPX 3\n%.2f\n%s\n%d\n", amount, cardNumber, dateTime);
+        return String.format("PaymentFPX 3\n%.2f\n%s\n%d", amount, cardNumber, dateTime);
     }
 
 

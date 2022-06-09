@@ -66,6 +66,7 @@ public class FundRaiserSystem {
 
 
 
+    //* Loading are done with separate methods */
     public static void loadAdmins() {
         try (Scanner scan = new Scanner( new File(ADMIN_PATH ) ) ) {
             while (scan.hasNextLine()) {

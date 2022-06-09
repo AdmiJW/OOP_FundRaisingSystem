@@ -57,7 +57,7 @@ public class EWalletPayment extends AbstractPayment {
 
     @Override
     public String serialize() {
-        return String.format("PaymentEWallet 3\n%.2f\n%s\n%d\n", amount, phoneNumber, dateTime);
+        return String.format("PaymentEWallet 3\n%.2f\n%s\n%d", amount, phoneNumber, dateTime);
     }
 
 
