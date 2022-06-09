@@ -9,6 +9,7 @@ public class Util {
     // Performs exception handling if invalid input is entered.
     public static int getInputOfRange(int from, int to) {
         Integer input = null;
+        @SuppressWarnings("resource")
         Scanner scan = new Scanner(System.in);
         while (input == null) {
             System.out.printf("Enter your choice [%d - %d]:", from, to);
