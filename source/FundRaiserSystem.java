@@ -18,11 +18,11 @@ import source.classes.Application;
 
 public class FundRaiserSystem {
 
-    final static String ADMIN_PATH = "admins.dat";
-    final static String USER_PATH = "users.dat";
-    final static String DONATION_PATH = "donations.dat";
-    final static String CATEGORY_PATH = "categories.dat";
-    final static String APPLICATION_PATH = "applications.dat";
+    final public static String ADMIN_PATH = "data/admins.dat";
+    final public static String USER_PATH = "data/users.dat";
+    final public static String DONATION_PATH = "data/donations.dat";
+    final public static String CATEGORY_PATH = "data/categories.dat";
+    final public static String APPLICATION_PATH = "data/applications.dat";
 
 
     public static Map<Integer, Admin> admins;
@@ -66,8 +66,10 @@ public class FundRaiserSystem {
 
 
     //* Loading are done with separate methods */
+    //! Warning: Loading will clear out the existing data in memory! */
     public static void loadAdmins() {
         try (Scanner scan = new Scanner( new File(ADMIN_PATH ) ) ) {
+            admins.clear();
             while (scan.hasNextLine()) {
                 String[] type = scan.nextLine().split(" ");
                 if (type.length != 2) return;
@@ -84,6 +86,7 @@ public class FundRaiserSystem {
 
     public static void loadUsers() {
         try (Scanner scan = new Scanner( new File(USER_PATH ) ) ) {
+            users.clear();
             while (scan.hasNextLine()) {
                 String[] type = scan.nextLine().split(" ");
                 if (type.length != 2) return;
@@ -100,6 +103,7 @@ public class FundRaiserSystem {
 
     public static void loadDonations() {
         try (Scanner scan = new Scanner( new File(DONATION_PATH ) ) ) {
+            donations.clear();
             while (scan.hasNextLine()) {
                 String[] type = scan.nextLine().split(" ");
                 if (type.length != 2) return;
@@ -116,6 +120,7 @@ public class FundRaiserSystem {
 
     public static void loadCategories() {
         try (Scanner scan = new Scanner( new File(CATEGORY_PATH ) ) ) {
+            categories.clear();
             while (scan.hasNextLine()) {
                 String[] type = scan.nextLine().split(" ");
                 if (type.length != 2) return;
@@ -133,6 +138,7 @@ public class FundRaiserSystem {
 
     public static void loadApplications() {
         try (Scanner scan = new Scanner( new File(APPLICATION_PATH ) ) ) {
+            applications.clear();
             while (scan.hasNextLine()) {
                 String[] type = scan.nextLine().split(" ");
                 if (type.length != 2) return;
