@@ -38,6 +38,10 @@ public class FundRaiserSystem {
         donations = new HashMap<>();
         categories = new HashMap<>();
         applications = new HashMap<>();
+
+        //* Create the 'data' directory automatically if not exists */
+        File f = new File("data");
+        if (!f.exists()) f.mkdir();
     }
 
 
