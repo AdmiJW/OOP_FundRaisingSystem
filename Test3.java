@@ -4,6 +4,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import source.FundRaiserSystem;
+import source.classes.Admin;
+import source.classes.Application;
+import source.classes.Donation;
+import source.classes.User;
 import source.classes.Util;
 
 
@@ -25,6 +29,8 @@ public class Test3 {
         test_loadCategory();
         test_loadApplications();
         test_loadDonations();
+        System.out.println();
+        test_loadSaveStaticVars();
     }
     
 
@@ -160,5 +166,51 @@ public class Test3 {
             "test_loadDonations() - Loaded Donation2 does not match expected", 
             testcase++
         );
+    }
+
+    private static void test_loadSaveStaticVars() {
+        int oriAdminID = Admin.nextID;
+        int oriApplicationID = Application.nextID;
+        int oriDonationID = Donation.nextID;
+        int oriUserID = User.nextID;
+        int testAdminID = 10;
+        int testApplicationID = 20;
+        int testDonationID = 30;
+        int testUserID = 40;
+
+        Admin.nextID = testAdminID;
+        Application.nextID = testApplicationID;
+        Donation.nextID = testDonationID;
+        User.nextID = testUserID;
+        
+        FundRaiserSystem.saveStaticVars();
+        // Set the nextID values to anything other than test value, to see if the loadStaticVars() is working
+        Admin.nextID = 1000;
+        Application.nextID = 2000;
+        Donation.nextID = 3000;
+        User.nextID = 4000;
+        FundRaiserSystem.loadStaticVars();
+
+        Util.assertTrue( Admin.nextID == testAdminID, 
+            "test_loadSaveStaticVars() - Admin's Next ID does not match test value", 
+            testcase++
+        );
+        Util.assertTrue( Application.nextID == testApplicationID, 
+            "test_loadSaveStaticVars() - Application's Next ID does not match test value", 
+            testcase++
+        );
+        Util.assertTrue( Donation.nextID == testDonationID, 
+            "test_loadSaveStaticVars() - Donation's Next ID does not match test value", 
+            testcase++
+        );
+        Util.assertTrue( User.nextID == testUserID, 
+            "test_loadSaveStaticVars() - User's Next ID does not match test value", 
+            testcase++
+        );
+
+        Admin.nextID = oriAdminID;
+        Application.nextID = oriApplicationID;
+        Donation.nextID = oriDonationID;
+        User.nextID = oriUserID;
     }
 }

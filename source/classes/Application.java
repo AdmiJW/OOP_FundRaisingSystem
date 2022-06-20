@@ -8,7 +8,7 @@ import source.interfaces.ISerializable;
 import source.interfaces.IStatus;
 
 public class Application implements ISerializable, IStatus {
-    static int nextID = 0;
+    public static int nextID = 0;
 
     private int id;
     private String description;

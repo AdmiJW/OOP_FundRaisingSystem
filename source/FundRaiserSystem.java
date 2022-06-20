@@ -12,6 +12,7 @@ import source.interfaces.ISerializable;
 import source.classes.Admin;
 import source.classes.User;
 import source.classes.Donation;
+import source.classes.EWalletPayment;
 import source.classes.CategoryPool;
 import source.classes.Application;
 
@@ -23,7 +24,7 @@ public class FundRaiserSystem {
     final public static String DONATION_PATH = "data/donations.dat";
     final public static String CATEGORY_PATH = "data/categories.dat";
     final public static String APPLICATION_PATH = "data/applications.dat";
-
+    final public static String STATICVAR_PATH = "data/static.dat";
 
     public static Map<Integer, Admin> admins;
     public static Map<Integer, User> users;
@@ -57,6 +58,20 @@ public class FundRaiserSystem {
         } 
         catch (IOException e) {
             System.err.println("*** FATAL ERROR ***\nFailed to save admin.");
+            e.printStackTrace();
+        }
+    }
+
+    //* The save method for he classes's static nextID field. */
+    public static void saveStaticVars() {
+        try (PrintWriter pw = new PrintWriter( STATICVAR_PATH )) {
+            pw.println(Admin.nextID);
+            pw.println(Application.nextID);
+            pw.println(Donation.nextID);
+            pw.println(User.nextID);
+        } 
+        catch (IOException e) {
+            System.err.println("*** FATAL ERROR ***\nFailed to save static variables.");
             e.printStackTrace();
         }
     }
@@ -152,6 +167,18 @@ public class FundRaiserSystem {
             }
         } catch (IOException e) {
             System.err.println("*** FATAL ERROR ***\nFailed to load applications.");
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadStaticVars() {
+        try (Scanner scan = new Scanner( new File(STATICVAR_PATH ) ) ) {
+            Admin.nextID = Integer.parseInt( scan.nextLine() );
+            Application.nextID = Integer.parseInt( scan.nextLine() );
+            Donation.nextID = Integer.parseInt( scan.nextLine() );
+            User.nextID = Integer.parseInt( scan.nextLine() );
+        } catch (IOException e) {
+            System.err.println("*** FATAL ERROR ***\nFailed to load static vars.");
             e.printStackTrace();
         }
     }
