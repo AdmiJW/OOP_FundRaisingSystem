@@ -38,8 +38,6 @@ public class FundRaiserSystem {
         donations = new HashMap<>();
         categories = new HashMap<>();
         applications = new HashMap<>();
-
-        initSystem();
     }
 
 
@@ -199,6 +197,21 @@ public class FundRaiserSystem {
         if ( new File(CATEGORY_PATH).exists() ) loadCategories();
         if ( new File(APPLICATION_PATH).exists() ) loadApplications();
         if ( new File(DONATION_PATH).exists() ) loadDonations();
+    }
+
+
+    // Data access methods
+
+    // Return null if no matching name found, otherwise return the first matched user with provided name
+    public static User getUserByName(String name) {
+        for (User u: users.values()) if (u.getName().equals(name)) return u;
+        return null;
+    }
+
+    // Return null if no matching name found, otherwise return the first matched user with provided name
+    public static Admin getAdminByName(String name) {
+        for (Admin a: admins.values()) if (a.getName().equals(name)) return a;
+        return null;
     }
 
 }

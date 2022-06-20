@@ -1,6 +1,8 @@
 package source.classes;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import source.FundRaiserSystem;
 import source.abstracts.AbstractPayment;
@@ -77,6 +79,26 @@ public class Donation implements ISerializable, IStatus {
 
 
     // Methods
+    public static void printListHeader() {
+        System.out.printf("%-6s%-15s%-30s%s\n", "Index", "Date", "Donor", "Status");
+    }
+
+    public void printAsAList(int index) {
+        System.out.printf("%-6d%-15s%-30s%s\n", index, new SimpleDateFormat("yyyy/MM/dd").format(new Date(payment.getDateTime())), this.donor.getName(), this.status );
+    }
+
+    public void printDetails() {
+        Util.printMenu("~~~ Donation #" + this.id + " ~~~");
+        System.out.printf("%20s: RM%.2f\n", "Donation Amount", payment.getAmount());
+        System.out.printf("%20s: %s\n", "Category", donationCategory);
+        System.out.printf("%20s: %s\n", "Donor", donor.getName() );
+        System.out.printf("%20s: %s\n", "Date", new SimpleDateFormat("yyyy/MM/dd").format(new Date(payment.getDateTime())) );
+        System.out.printf("%20s: %s\n", "Status", status );
+        System.out.printf("%20s: %s\n", "Status Description", statusDescription );
+        System.out.printf("%20s: %s\n", "Handling Admin", statusAdmin.getName() );
+    }
+
+
     @Override
     public String serialize() {
         // Count number of lines that payment string taken

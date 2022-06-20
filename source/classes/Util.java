@@ -38,9 +38,7 @@ public class Util {
 
     public static int printChoiceMenu(String title,  String description, String[] choices) {
         clearScreen();
-        System.out.println("*".repeat( title.length() + 4 ));
-        System.out.printf("* %s *\n", title);
-        System.out.println("*".repeat( title.length() + 4 ));
+        if (title.length() != 0) printMenu(title);
 
         System.out.println();
 
@@ -58,8 +56,6 @@ public class Util {
         System.out.println("+".repeat( title.length() + 4 ));
         System.out.printf("+ %s +\n", title);
         System.out.println("+".repeat( title.length() + 4 ));
-
-        System.out.println();
 
         System.out.println();
     }
@@ -83,18 +79,15 @@ public class Util {
     }
 
 
-    public static void loadingAnimation() {
-        loadingAnimation("Loading, Please wait...", 1000, 3, '>');
-    }
 
-    public static void loadingAnimation(String loadingMessage, long millisecondDelay, int length, char loadingChar) {
+    public static void loadingAnimation(String loadingMessage) {
         System.out.println(loadingMessage);
         System.out.print("Progress: ");
         
         try {
-            for (int i = 0; i < length; ++i) {
-                Thread.sleep(millisecondDelay);
-                System.out.print(loadingChar);
+            for (int i = 0; i < 5; ++i) {
+                Thread.sleep(500);
+                System.out.print(".");
             }
         } catch (InterruptedException e) {}
         System.out.println();

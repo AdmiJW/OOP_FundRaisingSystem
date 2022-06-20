@@ -1,6 +1,7 @@
 package source.classes;
 
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import source.enums.Category;
 import source.FundRaiserSystem;
 import source.enums.ApplyStatus;
@@ -88,6 +89,27 @@ public class Application implements ISerializable, IStatus {
 
 
     // Methods
+    public static void printListHeader() {
+        System.out.printf("%-6s%-15s%-30s%s\n", "Index", "Date", "Requestor", "Status");
+    }
+
+    public void printAsAList(int index) {
+        System.out.printf("%-6d%-15s%-30s%s\n", index, new SimpleDateFormat("yyyy/MM/dd").format(new Date(dateTime)), this.requestor.getName(), this.status );
+    }
+
+    public void printDetails() {
+        Util.printMenu("~~~ Application #" + this.id + " ~~~");
+        System.out.printf("%20s: %s\n", "Description", description);
+        System.out.printf("%20s: RM%.2f\n", "Requested Amount", requestAmount);
+        System.out.printf("%20s: %s\n", "Category", category);
+        System.out.printf("%20s: %s\n", "Requestor", requestor.getName() );
+        System.out.printf("%20s: %s\n", "Date", new SimpleDateFormat("yyyy/MM/dd").format(new Date(dateTime)) );
+        System.out.printf("%20s: %s\n", "Status", status );
+        System.out.printf("%20s: %s\n", "Status Description", statusDescription );
+        System.out.printf("%20s: %s\n", "Handling Admin", statusAdmin.getName() );
+    }
+
+
     @Override
     public String serialize() {
         // HEADER, ID, Description, requestAmount, catagory, requestor, dateTime, status, statusDesc, Admin
