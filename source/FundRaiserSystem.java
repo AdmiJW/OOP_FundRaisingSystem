@@ -40,9 +40,7 @@ public class FundRaiserSystem {
         categories = new HashMap<>();
         applications = new HashMap<>();
 
-        //* Create the 'data' directory automatically if not exists */
-        File f = new File("data");
-        if (!f.exists()) f.mkdir();
+        initSystem();
     }
 
 
@@ -196,9 +194,19 @@ public class FundRaiserSystem {
     
     // Intiializes the system -> Load saved data
     public static void initSystem() {
-        // TODO: Init default initial values
-        // TODO: Attempt loading
-            // TODO: Load static variables like nextID first
-            // TODO: Load data
+        // Add an default admin to the system
+        admins.put(-1, new Admin(-1, "admin", "010203-04-0506", "011-12345678", "def@gmail.com", "1234"));
+
+        //* Create the 'data' directory automatically if not exists */
+        File f = new File("data");
+        if (!f.exists()) f.mkdir();
+        
+        // Load from the file if exists
+        if ( new File(STATICVAR_PATH).exists() ) loadStaticVars();
+        if ( new File(ADMIN_PATH).exists() ) loadAdmins();
+        if ( new File(USER_PATH).exists() ) loadUsers();
+        if ( new File(CATEGORY_PATH).exists() ) loadCategories();
+        if ( new File(APPLICATION_PATH).exists() ) loadApplications();
+        if ( new File(DONATION_PATH).exists() ) loadDonations();
     }
 }
