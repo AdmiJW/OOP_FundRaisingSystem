@@ -49,27 +49,21 @@ public class MenuLib {
                 
             }
         }
-            for (int j=0; j<FundRaiserSystem.admins.size() ; j++){
+        for (int j=0; j<FundRaiserSystem.admins.size() ; j++){
             if (FundRaiserSystem.admins.get(j).getName().equals(username) && FundRaiserSystem.admins.get(j).comparePassword(password)) { 
                 // print admin menu
                 System.out.print("Go to admin page");
-                // pass2 = true;
                 break;
             }
             else{
-                // pass2 = false;
+                
             }
         }
         
-        if(pass1 == false && pass2 == false){
             
-            System.out.println("Sorry, Your username or password is wrong");
-            Util.pressEnterToContinue();
-            Util.clearScreen();
-        }
-            
-        // }while(pass1 == false && pass2 == false);
+        
     }
+
 
     public static void RegisterMenu(){
         Util.printMenu("Register for ");
@@ -109,4 +103,30 @@ public class MenuLib {
 
     }
     
+    //User View
+    public static void UserMenu(){
+
+    }
+
+    public static void RequestorApplication(){
+        
+    }
+
+    public static void ApplicationLog(){
+
+    }
+
+    public static void DonorApplication(){
+
+    }
+
+    //Admin View
+    public static void AdminMenu(){
+
+    }
+
+    public static void displayRequestor(int requestorIndex){
+
+    }
+
 }
