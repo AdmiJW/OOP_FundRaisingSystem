@@ -12,7 +12,6 @@ import source.interfaces.ISerializable;
 import source.classes.Admin;
 import source.classes.User;
 import source.classes.Donation;
-import source.classes.EWalletPayment;
 import source.classes.CategoryPool;
 import source.classes.Application;
 
@@ -81,7 +80,6 @@ public class FundRaiserSystem {
     public static void saveApplications() { save(APPLICATION_PATH, applications ); }
 
 
-
     //* Loading are done with separate methods */
     //! Warning: Loading will clear out the existing data in memory! */
     public static void loadAdmins() {
@@ -100,7 +98,6 @@ public class FundRaiserSystem {
         }
     }
 
-
     public static void loadUsers() {
         try (Scanner scan = new Scanner( new File(USER_PATH ) ) ) {
             users.clear();
@@ -116,7 +113,6 @@ public class FundRaiserSystem {
             e.printStackTrace();
         }
     }
-
 
     public static void loadDonations() {
         try (Scanner scan = new Scanner( new File(DONATION_PATH ) ) ) {
@@ -134,7 +130,6 @@ public class FundRaiserSystem {
         }
     }
 
-
     public static void loadCategories() {
         try (Scanner scan = new Scanner( new File(CATEGORY_PATH ) ) ) {
             categories.clear();
@@ -150,8 +145,6 @@ public class FundRaiserSystem {
             e.printStackTrace();
         }
     }
-
-
 
     public static void loadApplications() {
         try (Scanner scan = new Scanner( new File(APPLICATION_PATH ) ) ) {
@@ -182,8 +175,6 @@ public class FundRaiserSystem {
     }
 
 
-
-
     // The function to read N lines from the File, as used by the load functions
     private static String[] readNLines(Scanner file, int n) {
         String[] args = new String[n];
@@ -209,4 +200,5 @@ public class FundRaiserSystem {
         if ( new File(APPLICATION_PATH).exists() ) loadApplications();
         if ( new File(DONATION_PATH).exists() ) loadDonations();
     }
+
 }
