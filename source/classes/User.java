@@ -19,6 +19,7 @@ public class User extends AbstractUser {
         super(id, name, ic, phone, email, password);
         donations = new ArrayList<>();
         applications = new ArrayList<>();
+        nextID++;
     }
 
     // Constructor without ID defined - Assign next available ID
