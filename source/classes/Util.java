@@ -69,4 +69,22 @@ public class Util {
         if (!condition) System.out.printf("(X) Test case #%d FAILED: %s\n", testcase, message);
         else System.out.printf("(OK) Test case #%d PASSED.\n", testcase);
     }
+
+
+    public static void loadingAnimation() {
+        loadingAnimation("Loading, Please wait...", 1000, 3, '>');
+    }
+
+    public static void loadingAnimation(String loadingMessage, long millisecondDelay, int length, char loadingChar) {
+        System.out.println(loadingMessage);
+        System.out.print("Progress: ");
+        
+        try {
+            for (int i = 0; i < length; ++i) {
+                Thread.sleep(millisecondDelay);
+                System.out.print(loadingChar);
+            }
+        } catch (InterruptedException e) {}
+        System.out.println();
+    }
 }

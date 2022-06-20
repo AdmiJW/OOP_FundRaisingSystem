@@ -30,7 +30,15 @@ public class Test2 {
     }
 
 
+    private static void test_LoadingAnimation() {
+        String loadingMessage = "Test loading...";
+        long millisecondDelay = 500; 
+        int length = 5;
+        char loadingChar = '>';
 
+        Util.loadingAnimation(loadingMessage, millisecondDelay, length, loadingChar);
+        Util.assertTrue( true, "Error in test_LoadingAnimation()", testcase++);
+    }
 
 
 
@@ -40,5 +48,7 @@ public class Test2 {
         test_InputRange();
         Util.pressEnterToContinue();
         test_ChoiceMenu();
+        Util.pressEnterToContinue();
+        test_LoadingAnimation();
     }
 }
