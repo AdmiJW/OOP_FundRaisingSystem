@@ -159,7 +159,4 @@ public class Test1 {
         Util.assertTrue(reconstructed2.serialize().equals(TestData.donation2Serialized), "test_DonationClass() - Problem in deserialize() of Donation", testcase++);
         System.out.println();
     }
-
-
-
 }
