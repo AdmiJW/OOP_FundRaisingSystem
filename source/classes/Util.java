@@ -52,6 +52,17 @@ public class Util {
 
         return getInputOfRange(1, choices.length);
     }
+
+    public static void printMenu(String title) {
+        clearScreen();
+        System.out.println("+".repeat( title.length() + 4 ));
+        System.out.printf("+ %s +\n", title);
+        System.out.println("+".repeat( title.length() + 4 ));
+
+        System.out.println();
+
+        System.out.println();
+    }
     
 
 
