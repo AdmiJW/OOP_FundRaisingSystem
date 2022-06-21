@@ -1,6 +1,7 @@
 package source.classes;
 
 import java.util.Date;
+import java.util.Scanner;
 
 import source.abstracts.AbstractPayment;
 
@@ -35,8 +36,19 @@ public class EWalletPayment extends AbstractPayment {
     // Methods
     @Override
     public boolean makePayment() {
-        // TODO: Enter Phone number (and set it)
-        // TODO: Enter Pin number
+        Scanner scan = new Scanner(System.in);
+
+        Util.printMenu(" ~~~ E-Wallet Payment Gateway ~~~ ");
+        System.out.printf("The payment amount is: RM%.2f\n\n", this.amount);
+        System.out.print("Please enter your phone number: ");
+        this.setPhoneNumber( scan.nextLine() );
+        System.out.print("Please enter PIN: ");
+        scan.nextLine();
+
+        Util.loadingAnimation("Payment processing. Please wait...");
+        System.out.println("Payment successful! Your E-wallet payment has been verified!");
+        System.out.println();
+        Util.pressEnterToContinue();
 
         return true;
     }

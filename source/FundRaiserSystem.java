@@ -186,6 +186,15 @@ public class FundRaiserSystem {
         // Add an default admin to the system
         admins.put(-1, new Admin(-1, "admin", "010203-04-0506", "011-12345678", "def@gmail.com", "1234"));
 
+        // Initial default categories
+
+        // TODO: Fix the bug of null pointer
+        categories.put( Category.DISASTER, new CategoryPool(Category.DISASTER, 0) );
+        categories.put( Category.EDUCATION, new CategoryPool(Category.EDUCATION, 0) );
+        categories.put( Category.HOUSEHOLD, new CategoryPool(Category.HOUSEHOLD, 0) );
+        categories.put( Category.MEDICAL, new CategoryPool(Category.MEDICAL, 0) );
+        categories.put( Category.OTHER, new CategoryPool(Category.OTHER, 0) );
+
         //* Create the 'data' directory automatically if not exists */
         File f = new File("data");
         if (!f.exists()) f.mkdir();

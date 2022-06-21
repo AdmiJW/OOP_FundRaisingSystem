@@ -1,6 +1,7 @@
 package source.classes;
 
 import java.util.Date;
+import java.util.Scanner;
 
 import source.abstracts.AbstractPayment;
 
@@ -36,8 +37,19 @@ public class FPXPayment extends AbstractPayment {
     // Methods
     @Override
     public boolean makePayment() {
-        // TODO: Enter card number (and set it)
-        // TODO: Enter OTP
+        Scanner scan = new Scanner(System.in);
+
+        Util.printMenu(" ~~~ E-Wallet Payment Gateway ~~~ ");
+        System.out.printf("The payment amount is: RM%.2f\n\n", this.amount);
+        System.out.print("Please enter your credit/debit card number: ");
+        this.setCardNumber( scan.nextLine() );
+        System.out.print("Please enter CVV: ");
+        scan.nextLine();
+
+        Util.loadingAnimation("Payment processing. Please wait...");
+        System.out.println("Payment successful! Your FPX Transfer has been verified!");
+        System.out.println();
+        Util.pressEnterToContinue();
 
         return true;
     }

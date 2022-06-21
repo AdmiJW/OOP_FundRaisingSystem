@@ -21,7 +21,7 @@ public class Admin extends AbstractUser {
     // Methods
     @Override
     public String getPersonalDetails() {
-        return String.format( "[Admin]\n%s", super.getPersonalDetails() );
+        return String.format( "[Admin Details]\n%s\n", super.getPersonalDetails() );
     }
 
     @Override
