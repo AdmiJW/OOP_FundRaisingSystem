@@ -114,7 +114,7 @@ public class Donation implements ISerializable, IStatus {
             donationCategory.getCategory().name(),
             status.name(),
             statusDescription,
-            statusAdmin == null? "": statusAdmin.getID(),
+            statusAdmin == null? "": Integer.toString( statusAdmin.getID() ),
             paymentSerialized
         );
     }

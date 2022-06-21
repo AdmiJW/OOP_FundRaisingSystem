@@ -1,6 +1,4 @@
 
-import source.classes.*;
-import java.util.Scanner;
 import source.FundRaiserSystem;
 
 public class Main {

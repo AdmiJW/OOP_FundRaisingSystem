@@ -183,16 +183,6 @@ public class FundRaiserSystem {
     
     // Intiializes the system -> Load saved data
     public static void initSystem() {
-        // Add an default admin to the system
-        admins.put(-1, new Admin(-1, "admin", "010203-04-0506", "011-12345678", "def@gmail.com", "1234"));
-
-        // Initial default categories
-        categories.put( Category.DISASTER, new CategoryPool(Category.DISASTER, 0) );
-        categories.put( Category.EDUCATION, new CategoryPool(Category.EDUCATION, 0) );
-        categories.put( Category.HOUSEHOLD, new CategoryPool(Category.HOUSEHOLD, 0) );
-        categories.put( Category.MEDICAL, new CategoryPool(Category.MEDICAL, 0) );
-        categories.put( Category.OTHER, new CategoryPool(Category.OTHER, 0) );
-
         //* Create the 'data' directory automatically if not exists */
         File f = new File("data");
         if (!f.exists()) f.mkdir();
@@ -204,6 +194,16 @@ public class FundRaiserSystem {
         if ( new File(CATEGORY_PATH).exists() ) loadCategories();
         if ( new File(APPLICATION_PATH).exists() ) loadApplications();
         if ( new File(DONATION_PATH).exists() ) loadDonations();
+
+        // Add an default admin to the system if absent
+        admins.putIfAbsent(-1, new Admin(-1, "admin", "010203-04-0506", "011-12345678", "def@gmail.com", "1234"));
+      
+        // Initial default categories if absent
+        categories.putIfAbsent( Category.DISASTER, new CategoryPool(Category.DISASTER, 0) );
+        categories.putIfAbsent( Category.EDUCATION, new CategoryPool(Category.EDUCATION, 0) );
+        categories.putIfAbsent( Category.HOUSEHOLD, new CategoryPool(Category.HOUSEHOLD, 0) );
+        categories.putIfAbsent( Category.MEDICAL, new CategoryPool(Category.MEDICAL, 0) );
+        categories.putIfAbsent( Category.OTHER, new CategoryPool(Category.OTHER, 0) );
     }
 
 
