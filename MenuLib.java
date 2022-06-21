@@ -216,7 +216,7 @@ public class MenuLib {
         for (int i = 0; i < cats.length; ++i) catNames[i] = cats[i].toString();
 
         Util.printMenu(" ~~~ Donor Application ~~~ ");
-        int choice = Util.printChoiceMenu("Donor Application", "Select category", catNames);
+        int choice = Util.printChoiceMenu("Donor Application", "Select category", catNames)-1;
         System.out.println(user.getPersonalDetails());
         System.out.println("Category: " + cats[choice]);
         categories = FundRaiserSystem.categories.get(cats[choice]);
@@ -329,8 +329,8 @@ public class MenuLib {
     public static void donationDetailControl(Admin admin, Donation donation) {
         
         Scanner input = new Scanner(System.in);
-        System.out.printf("Category %s Balance: RM%.2f\n\n", donation.getCategory().getCategory(), donation.getCategory().getBalance() );
         donation.printDetails();
+        System.out.printf("\nCategory %s Balance: RM%.2f\n\n", donation.getCategory().getCategory(), donation.getCategory().getBalance() );
         String description;
         int choice;
         if (donation.getStatus().equals(ApplyStatus.PENDING_VERIFICATION)){
@@ -377,8 +377,8 @@ public class MenuLib {
     
     public static void ApplicationDetailControl(Admin admin, Application application, CategoryPool categories) {
         Scanner input = new Scanner(System.in);
-        System.out.printf("Category %s Balance: RM%.2f\n\n", categories.getCategory(), categories.getBalance());
         application.printDetails();
+        System.out.printf("\nCategory %s Balance: RM%.2f\n\n", categories.getCategory(), categories.getBalance());
         int choice;
         String description;
         
