@@ -121,6 +121,7 @@ public class FundRaiserSystem {
                 int n = Integer.parseInt(type[1]);
                 Donation a = Donation.deserialize( readNLines(scan, n) );
                 donations.put( a.getID(), a );
+                users.get( a.getDonor().getID() ).getDonations().add( a );
             }
         } catch (IOException e) {
             System.err.println("*** FATAL ERROR ***\nFailed to load donations.");
@@ -153,6 +154,7 @@ public class FundRaiserSystem {
                 int n = Integer.parseInt(type[1]);
                 Application a = Application.deserialize( readNLines(scan, n) );
                 applications.put( a.getID(), a );
+                users.get( a.getRequestor().getID() ).getApplications().add( a );
             }
         } catch (IOException e) {
             System.err.println("*** FATAL ERROR ***\nFailed to load applications.");

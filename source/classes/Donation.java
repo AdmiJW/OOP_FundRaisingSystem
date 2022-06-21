@@ -89,13 +89,13 @@ public class Donation implements ISerializable, IStatus {
 
     public void printDetails() {
         Util.printMenu("~~~ Donation #" + this.id + " ~~~");
-        System.out.printf("%20s: RM%.2f\n", "Donation Amount", payment.getAmount());
-        System.out.printf("%20s: %s\n", "Category", donationCategory);
-        System.out.printf("%20s: %s\n", "Donor", donor.getName() );
-        System.out.printf("%20s: %s\n", "Date", new SimpleDateFormat("yyyy/MM/dd").format(new Date(payment.getDateTime())) );
-        System.out.printf("%20s: %s\n", "Status", status );
-        System.out.printf("%20s: %s\n", "Status Description", statusDescription );
-        System.out.printf("%20s: %s\n", "Handling Admin", statusAdmin.getName() );
+        System.out.printf("%-20s: RM%.2f\n", "Donation Amount", payment.getAmount());
+        System.out.printf("%-20s: %s\n", "Category", donationCategory);
+        System.out.printf("%-20s: %s\n", "Donor", donor.getName() );
+        System.out.printf("%-20s: %s\n", "Date", new SimpleDateFormat("yyyy/MM/dd").format(new Date(payment.getDateTime())) );
+        System.out.printf("%-20s: %s\n", "Status", status );
+        System.out.printf("%-20s: %s\n", "Status Description", statusDescription.isEmpty()? "-": statusDescription );
+        System.out.printf("%-20s: %s\n", "Handling Admin", statusAdmin == null? "None": statusAdmin.getName() );
     }
 
 

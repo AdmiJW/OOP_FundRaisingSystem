@@ -55,7 +55,7 @@ public class MenuLib {
         else if (admin != null) {
             if (admin.comparePassword(password)){
                 Util.loadingAnimation("Admin logging in");
-                AdminMenu(admin);
+                // AdminMenu(admin);
             } else {
                 System.out.println("Error: Incorrect password.");
                 Util.pressEnterToContinue();
@@ -138,17 +138,17 @@ public class MenuLib {
         Util.printMenu(" ~~~ Requestor Application ~~~ ");
         int choice = Util.printChoiceMenu("Requestor Application", "Select category", catNames);
         System.out.println(user.getPersonalDetails());
-        System.out.println("Category: " + cats[choice]);
+        System.out.println("Category: " + cats[choice-1]);
         System.out.print("Enter request Amount: RM");
         requestAmount = input.nextDouble();
         input.nextLine();
         System.out.print("Enter Description:");
         description = input.nextLine();
 
-        categories = FundRaiserSystem.categories.get(cats[choice]);
-        System.out.println("CAT: " + categories);
+        categories = FundRaiserSystem.categories.get(cats[choice-1]);
         Application application = new Application(user, categories, description, requestAmount);
         FundRaiserSystem.applications.put(application.getID(), application);
+        user.getApplications().add(application);
         FundRaiserSystem.saveApplications();
         Util.loadingAnimation("Saving Application in database...");
         System.out.println("Application successfully submitted!");
@@ -165,11 +165,12 @@ public class MenuLib {
         for ( int i = 0; i <user.getApplications().size(); i++) {
             user.getApplications().get(i).printAsAList(i+1);
         }
-        System.out.printf("%-6d%-10s",user.getApplications().size()+1,"QUIT");
-        System.out.print("Enter an index to view the applicaiton details: ");
-        int choice = Util.getInputOfRange(1, user.getApplications().size()+1);
+        
+        System.out.printf("\n%s%d%s\n","Enter ",user.getApplications().size()+1," to QUIT");
+        System.out.println("Enter an index to view the applicaiton details: ");
+        int choice = Util.getInputOfRange(1, user.getApplications().size()+1) -1;
 
-        if (choice == user.getApplications().size() + 1) return;
+        if (choice == user.getApplications().size() ) return;
 
         Util.clearScreen();
         user.getApplications().get(choice).printDetails();
@@ -188,11 +189,11 @@ public class MenuLib {
         for ( int i = 0; i <user.getDonations().size(); i++) {
             user.getDonations().get(i).printAsAList(i+1);
         }
-        System.out.printf("%-6d%-10s",user.getDonations().size()+1,"QUIT");
-        System.out.print("Enter an index to view the donation details: ");
-        int choice = Util.getInputOfRange(1, user.getDonations().size()+1);
+        System.out.printf("\n%s%d%s\n","Enter ",user.getDonations().size()+1," to QUIT");
+        System.out.println("Enter an index to view the donation details: ");
+        int choice = Util.getInputOfRange(1, user.getDonations().size()+1)-1;
 
-        if (choice == user.getDonations().size() + 1) return;
+        if (choice == user.getDonations().size() ) return;
 
         Util.clearScreen();
         user.getDonations().get(choice).printDetails();
@@ -223,7 +224,7 @@ public class MenuLib {
         double donationAmount =0;
 
         choice = Util.printChoiceMenu("", "Select payment type", new String[] {"FPXPayment","EWalletPayment"});
-        System.out.println("Enter amount to be donated: RM");
+        System.out.print("Enter amount to be donated: RM");
         donationAmount= input.nextDouble();
         input.nextLine();
         if (choice == 1) payment = new FPXPayment(donationAmount);
@@ -232,8 +233,9 @@ public class MenuLib {
         payment.makePayment();
 
         Donation donation = new Donation(user, categories, payment);
-
+        
         FundRaiserSystem.donations.put(donation.getID(), donation);
+        user.getDonations().add(donation);
         FundRaiserSystem.saveDonations();
         Util.loadingAnimation("Saving Donation in database...");
         System.out.println("Donation successfully submitted!");
@@ -242,12 +244,51 @@ public class MenuLib {
 
 
     //Admin View
-    public static void AdminMenu(Admin admin){
-        Util.pressEnterToContinue();
-        return;
-    }
+    // public static void AdminMenu(Admin admin){
+    //     Util.printMenu("Log in");
+
+    //     Scanner input = new Scanner(System.in);
+    //     String username, password;
+
+    //     //Input login info
+    //     System.out.print("Enter Username: ");
+    //     username = input.nextLine();
+    //     System.out.print("Enter password: ");
+    //     password = input.nextLine();
+        
+    //     User user = FundRaiserSystem.getUserByName(username);
+    //     Admin admin = FundRaiserSystem.getAdminByName(username);
+
+    //     //Check user type (if exists)
+    //     if (user != null) {
+    //         if (user.comparePassword(password)) {
+    //             Util.loadingAnimation("User logging in");
+    //             UserMenu(user);
+    //         } else {
+    //             System.out.println("Error: Incorrect password.");
+    //             Util.pressEnterToContinue();
+    //         }
+    //     }
+    //     else if (admin != null) {
+    //         if (admin.comparePassword(password)){
+    //             Util.loadingAnimation("Admin logging in");
+    //             AdminMenu(admin);
+    //         } else {
+    //             System.out.println("Error: Incorrect password.");
+    //             Util.pressEnterToContinue();
+    //         }
+    //     }
+    //     else {
+    //         Util.loadingAnimation("Searching database...");
+    //         System.out.println("Error: Account Not Found");
+    //         Util.pressEnterToContinue();
+    //     }
+    //     Util.pressEnterToContinue();
+    //     return;
+    // }
 
     public static void displayRequestor(int requestorIndex){
+
         Util.pressEnterToContinue();
         return;
     }
