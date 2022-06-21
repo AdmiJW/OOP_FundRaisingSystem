@@ -101,7 +101,7 @@ public class Application implements ISerializable, IStatus {
         Util.printMenu("~~~ Application #" + this.id + " ~~~");
         System.out.printf("%-20s: %s\n", "Description", description);
         System.out.printf("%-20s: RM%.2f\n", "Requested Amount", requestAmount);
-        System.out.printf("%-20s: %s\n", "Category", category);
+        System.out.printf("%-20s: %s\n", "Category", category.getCategory() );
         System.out.printf("%-20s: %s\n", "Requestor", requestor.getName() );
         System.out.printf("%-20s: %s\n", "Date", new SimpleDateFormat("yyyy/MM/dd").format(new Date(dateTime)) );
         System.out.printf("%-20s: %s\n", "Status", status );
@@ -133,9 +133,7 @@ public class Application implements ISerializable, IStatus {
     // ID, Description, requestAmount, catagory, requestor, dateTime, status, statusDesc, Admin
     public static Application deserialize(String[] args) {
         User requestor = FundRaiserSystem.users.get( Integer.parseInt(args[4] ));
-        System.out.println("Argument 3 = " + args[3]);
-        CategoryPool category = FundRaiserSystem.categories.get( Category.valueOf(args[3] ) );
-        System.out.println("Category is " + category);
+        CategoryPool category = FundRaiserSystem.categories.get( Category.valueOf( args[3] ) );
         Admin admin = args[8].equals("")? null: FundRaiserSystem.admins.get( Integer.parseInt(args[8]));
 
         Application application = new Application(

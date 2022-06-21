@@ -90,7 +90,7 @@ public class Donation implements ISerializable, IStatus {
     public void printDetails() {
         Util.printMenu("~~~ Donation #" + this.id + " ~~~");
         System.out.printf("%-20s: RM%.2f\n", "Donation Amount", payment.getAmount());
-        System.out.printf("%-20s: %s\n", "Category", donationCategory);
+        System.out.printf("%-20s: %s\n", "Category", donationCategory.getCategory() );
         System.out.printf("%-20s: %s\n", "Donor", donor.getName() );
         System.out.printf("%-20s: %s\n", "Date", new SimpleDateFormat("yyyy/MM/dd").format(new Date(payment.getDateTime())) );
         System.out.printf("%-20s: %s\n", "Status", status );
