@@ -1,6 +1,7 @@
 
 import source.classes.*;
 import source.abstracts.*;
+import source.enums.ApplyStatus;
 import source.enums.Category;
 
 import java.util.Scanner;
@@ -55,7 +56,7 @@ public class MenuLib {
         else if (admin != null) {
             if (admin.comparePassword(password)){
                 Util.loadingAnimation("Admin logging in");
-                // AdminMenu(admin);
+                AdminMenu(admin);
             } else {
                 System.out.println("Error: Incorrect password.");
                 Util.pressEnterToContinue();
@@ -234,9 +235,11 @@ public class MenuLib {
 
         Donation donation = new Donation(user, categories, payment);
         
+        //Compulsory saving
         FundRaiserSystem.donations.put(donation.getID(), donation);
         user.getDonations().add(donation);
         FundRaiserSystem.saveDonations();
+
         Util.loadingAnimation("Saving Donation in database...");
         System.out.println("Donation successfully submitted!");
         Util.pressEnterToContinue();
@@ -244,51 +247,15 @@ public class MenuLib {
 
 
     //Admin View
-    // public static void AdminMenu(Admin admin){
-    //     Util.printMenu("Log in");
+    public static void AdminMenu(Admin admin){
+        Util.printMenu("Admin view");
 
-    //     Scanner input = new Scanner(System.in);
-    //     String username, password;
+        ApplyStatus[] status = ApplyStatus.values();
+        String[] statusName = new String(ApplyStatus.length);
+        for (int i = 0; i < ApplyStatus.length; ++i) statusName[i] = status[i].toString();
 
-    //     //Input login info
-    //     System.out.print("Enter Username: ");
-    //     username = input.nextLine();
-    //     System.out.print("Enter password: ");
-    //     password = input.nextLine();
-        
-    //     User user = FundRaiserSystem.getUserByName(username);
-    //     Admin admin = FundRaiserSystem.getAdminByName(username);
-
-    //     //Check user type (if exists)
-    //     if (user != null) {
-    //         if (user.comparePassword(password)) {
-    //             Util.loadingAnimation("User logging in");
-    //             UserMenu(user);
-    //         } else {
-    //             System.out.println("Error: Incorrect password.");
-    //             Util.pressEnterToContinue();
-    //         }
-    //     }
-    //     else if (admin != null) {
-    //         if (admin.comparePassword(password)){
-    //             Util.loadingAnimation("Admin logging in");
-    //             AdminMenu(admin);
-    //         } else {
-    //             System.out.println("Error: Incorrect password.");
-    //             Util.pressEnterToContinue();
-    //         }
-    //     }
-    //     else {
-    //         Util.loadingAnimation("Searching database...");
-    //         System.out.println("Error: Account Not Found");
-    //         Util.pressEnterToContinue();
-    //     }
-    //     Util.pressEnterToContinue();
-    //     return;
-    // }
-
-    public static void displayRequestor(int requestorIndex){
-
+        FundRaiserSystem.applications.get(requestorIndex).printDetails();
+         
         Util.pressEnterToContinue();
         return;
     }
