@@ -35,7 +35,7 @@ public class User extends AbstractUser {
     @Override
     public String getPersonalDetails() {
         return String.format( 
-            "[User Details]\n%s\nNumber of donations: %d\nNumber of applications: %d\n", 
+            "\n-----[User Details]\n\n-----%s\nNumber of donations: %d\nNumber of applications: %d\n", 
             super.getPersonalDetails(),
             this.donations.size(),
             this.applications.size()

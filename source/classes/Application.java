@@ -123,7 +123,7 @@ public class Application implements ISerializable, IStatus {
             dateTime,
             status.name(),
             statusDescription,
-            statusAdmin.getID()
+            statusAdmin == null? "": statusAdmin.getID()
         );
     }
 

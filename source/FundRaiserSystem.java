@@ -187,8 +187,6 @@ public class FundRaiserSystem {
         admins.put(-1, new Admin(-1, "admin", "010203-04-0506", "011-12345678", "def@gmail.com", "1234"));
 
         // Initial default categories
-
-        // TODO: Fix the bug of null pointer
         categories.put( Category.DISASTER, new CategoryPool(Category.DISASTER, 0) );
         categories.put( Category.EDUCATION, new CategoryPool(Category.EDUCATION, 0) );
         categories.put( Category.HOUSEHOLD, new CategoryPool(Category.HOUSEHOLD, 0) );
