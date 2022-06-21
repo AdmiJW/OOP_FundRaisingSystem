@@ -32,11 +32,8 @@ public class Test2 {
 
     private static void test_LoadingAnimation() {
         String loadingMessage = "Test loading...";
-        long millisecondDelay = 500; 
-        int length = 5;
-        char loadingChar = '>';
 
-        Util.loadingAnimation(loadingMessage, millisecondDelay, length, loadingChar);
+        Util.loadingAnimation(loadingMessage);
         Util.assertTrue( true, "Error in test_LoadingAnimation()", testcase++);
     }
 
