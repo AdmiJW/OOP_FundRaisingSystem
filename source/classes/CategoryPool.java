@@ -3,6 +3,7 @@ package source.classes;
 import java.util.List;
 
 import source.enums.Category;
+import source.enums.ApplyStatus;
 import source.interfaces.ISerializable;
 
 import java.util.ArrayList;
@@ -11,10 +12,7 @@ public class CategoryPool implements ISerializable {
     private Category category;
     private double balance;
     private List<Donation> donations;
-    private List<Application> pendingApplications;
-    private List<Application> verifiedApplications;
-    private List<Application> successApplications;
-    private List<Application> rejectedApplications;
+    private List<Application> applications;
 
 
     // Ctor
@@ -23,21 +21,27 @@ public class CategoryPool implements ISerializable {
         this.balance = balance;
 
         donations = new ArrayList<>();
-        pendingApplications = new ArrayList<>();
-        verifiedApplications = new ArrayList<>();
-        successApplications = new ArrayList<>();
-        rejectedApplications = new ArrayList<>();
+        applications = new ArrayList<>();
     }
 
 
     // Getters
-    public Category getCategory() { return this.category; }
+    public Category  getCategory() { return this.category; }
     public double getBalance() { return this.balance; }
     public List<Donation> getDonationList() { return this.donations; }
-    public List<Application> getPendingApplicationList() { return this.pendingApplications; }
-    public List<Application> getVerifiedApplicationList() { return this.verifiedApplications; }
-    public List<Application> getSuccessApplicationList() { return this.successApplications; }
-    public List<Application> getRejectedApplicationList() { return this.rejectedApplications; }
+    public List<Application> getApplicationList() { return this.applications; }
+
+    public int getNumberOfPendingDonation() {
+        return (int)(donations.stream().filter(
+            (d)-> d.getStatus() == ApplyStatus.PENDING_VERIFICATION || d.getStatus() == ApplyStatus.APPROVED_PENDING_TRANSACTION
+        ).count());
+    }
+
+    public int getNumberOfPendingApplication() {
+        return (int)(applications.stream().filter(
+            (a)-> a.getStatus() == ApplyStatus.PENDING_VERIFICATION || a.getStatus() == ApplyStatus.APPROVED_PENDING_TRANSACTION
+        ).count());
+    }
     
 
     // Setters
@@ -51,31 +55,11 @@ public class CategoryPool implements ISerializable {
     // Methods
     public void addDonation(Donation d) {
         this.donations.add(d);
-        this.balance += d.getPayment().getAmount();
     }
 
-    public void addNewApplication(Application a) {
-        this.pendingApplications.add(a);
+    public void addApplication(Application a) {
+        this.applications.add(a);
     }
-
-    public void rejectApplication(Application a) {
-        if (this.pendingApplications.remove(a) )
-            this.rejectedApplications.add(a);
-        // TODO: If not exists?
-    }
-
-    public void verifyApplication(Application a) {
-        if (this.pendingApplications.remove(a) )
-            this.verifiedApplications.add(a);
-        // TODO: If not exists?
-    }
-
-    public void finalizeApplication(Application a) {
-        if (this.verifiedApplications.remove(a) )
-            this.successApplications.add(a);
-        // TODO: If not exists?
-    }
-
 
     @Override
     public String serialize() {

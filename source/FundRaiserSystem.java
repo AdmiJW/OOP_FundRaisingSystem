@@ -15,6 +15,8 @@ import source.classes.Donation;
 import source.classes.CategoryPool;
 import source.classes.Application;
 
+import source.classes.Util;
+
 
 public class FundRaiserSystem {
 
@@ -123,6 +125,7 @@ public class FundRaiserSystem {
                 Donation a = Donation.deserialize( readNLines(scan, n) );
                 donations.put( a.getID(), a );
                 users.get( a.getDonor().getID() ).getDonations().add( a );
+                a.getCategory().addDonation(a);
             }
         } catch (IOException e) {
             System.err.println("*** FATAL ERROR ***\nFailed to load donations.");
@@ -155,6 +158,7 @@ public class FundRaiserSystem {
                 int n = Integer.parseInt(type[1]);
                 Application a = Application.deserialize( readNLines(scan, n) );
                 applications.put( a.getID(), a );
+                a.getCategory().addApplication(a);
                 users.get( a.getRequestor().getID() ).getApplications().add( a );
             }
         } catch (IOException e) {
@@ -189,6 +193,17 @@ public class FundRaiserSystem {
         //* Create the 'data' directory automatically if not exists */
         File f = new File("data");
         if (!f.exists()) f.mkdir();
+
+        // Add an default admin to the system if absent
+        admins.putIfAbsent(-1, new Admin(-1, "admin", "010203-04-0506", "011-12345678", "def@gmail.com", "1234"));
+        admins.putIfAbsent(-2, new Admin(-1, "norsham", "010203-04-0506", "011-12345678", "def@gmail.com", "1234"));
+      
+        // Initial default categories if absent
+        categories.putIfAbsent( Category.DISASTER, new CategoryPool(Category.DISASTER, 0) );
+        categories.putIfAbsent( Category.EDUCATION, new CategoryPool(Category.EDUCATION, 0) );
+        categories.putIfAbsent( Category.HOUSEHOLD, new CategoryPool(Category.HOUSEHOLD, 0) );
+        categories.putIfAbsent( Category.MEDICAL, new CategoryPool(Category.MEDICAL, 0) );
+        categories.putIfAbsent( Category.OTHER, new CategoryPool(Category.OTHER, 0) );
         
         // Load from the file if exists
         if ( new File(STATICVAR_PATH).exists() ) loadStaticVars();
@@ -198,15 +213,6 @@ public class FundRaiserSystem {
         if ( new File(APPLICATION_PATH).exists() ) loadApplications();
         if ( new File(DONATION_PATH).exists() ) loadDonations();
 
-        // Add an default admin to the system if absent
-        admins.putIfAbsent(-1, new Admin(-1, "admin", "010203-04-0506", "011-12345678", "def@gmail.com", "1234"));
-      
-        // Initial default categories if absent
-        categories.putIfAbsent( Category.DISASTER, new CategoryPool(Category.DISASTER, 0) );
-        categories.putIfAbsent( Category.EDUCATION, new CategoryPool(Category.EDUCATION, 0) );
-        categories.putIfAbsent( Category.HOUSEHOLD, new CategoryPool(Category.HOUSEHOLD, 0) );
-        categories.putIfAbsent( Category.MEDICAL, new CategoryPool(Category.MEDICAL, 0) );
-        categories.putIfAbsent( Category.OTHER, new CategoryPool(Category.OTHER, 0) );
     }
 
 

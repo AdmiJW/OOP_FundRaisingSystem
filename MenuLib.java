@@ -150,6 +150,7 @@ public class MenuLib {
         Application application = new Application(user, categories, description, requestAmount);
         FundRaiserSystem.applications.put(application.getID(), application);
         user.getApplications().add(application);
+        categories.addApplication(application);
         FundRaiserSystem.saveApplications();
         Util.loadingAnimation("Saving Application in database...");
         System.out.println("Application successfully submitted!");
@@ -158,7 +159,7 @@ public class MenuLib {
 
     
     //  View application status 
-    public static void applicationLogReq(User user){
+    public static void applicationLogReq(User user) {
         Util.clearScreen();
         Util.printMenu(" ~~~ Application Log Requestor ~~~ ");
         
@@ -238,6 +239,7 @@ public class MenuLib {
         //Compulsory saving
         FundRaiserSystem.donations.put(donation.getID(), donation);
         user.getDonations().add(donation);
+        categories.addDonation(donation);
         FundRaiserSystem.saveDonations();
 
         Util.loadingAnimation("Saving Donation in database...");
@@ -248,16 +250,188 @@ public class MenuLib {
 
     //Admin View
     public static void AdminMenu(Admin admin){
-        Util.printMenu("Admin view");
+        while(true){
+            int choice = Util.printChoiceMenu("Admin View", "", new String[]{"Application list","Donation list","Exit"});
+            if (choice == 1 ) approvalListApplication(admin);
+            else if (choice == 2) approvalListDonation(admin);
+            else return;
+        }
+    }
 
-        ApplyStatus[] status = ApplyStatus.values();
-        String[] statusName = new String(ApplyStatus.length);
-        for (int i = 0; i < ApplyStatus.length; ++i) statusName[i] = status[i].toString();
 
-        FundRaiserSystem.applications.get(requestorIndex).printDetails();
-         
+    public static void approvalListApplication(Admin admin) {
+        CategoryPool categories;
+        Category[] cats = Category.values();
+        String[] catsName = new String[cats.length+1];
+        while(true){
+        for (int i = 0; i < cats.length; ++i) {
+            catsName[i] = String.format("%-15s %-15.2f<!> [%d]",
+             cats[i].toString(), 
+             FundRaiserSystem.categories.get(cats[i]).getBalance(),
+             FundRaiserSystem.categories.get(cats[i]).getNumberOfPendingApplication());
+            }
+            catsName[cats.length] = "Quit";
+        String formatted = String.format("%-19s%-15s%-8s","Category","Capital(RM)","Pending");
+        int choice = Util.printChoiceMenuNClearScreen("-----Application list-----", formatted, catsName) -1 ;
+        if (choice == cats.length) return;
+        categories = FundRaiserSystem.categories.get(cats[choice]);
+        Application.printListHeader();
+        for ( int i = 0; i <categories.getApplicationList().size(); i++) {
+            categories.getApplicationList().get(i).printAsAList(i+1);
+        }
+        
+        System.out.printf("\n%s%d%s\n","Enter ",categories.getApplicationList().size()+1," to QUIT");
+        System.out.println("Enter an index to view the application details: ");
+        choice = Util.getInputOfRange(1, categories.getApplicationList().size()+1) -1;
+        
+        if (choice == categories.getApplicationList().size() ) return;
+        
+        Util.clearScreen();
+        ApplicationDetailControl(admin, categories.getApplicationList().get(choice), categories);
+        }
+    }
+
+
+    public static void approvalListDonation(Admin admin){
+        Category[] cats = Category.values();
+        String[] catNames = new String[cats.length + 1];
+        
+        while(true) {
+            for (int i = 0; i < cats.length; ++i)
+                catNames[i] = String.format("%-15s %-15.2f<!> [%d]", 
+                cats[i].toString(), 
+                FundRaiserSystem.categories.get(cats[i]).getBalance(),
+                FundRaiserSystem.categories.get(cats[i]).getNumberOfPendingDonation());
+            
+            catNames[cats.length] = "Quit";
+            String formatted = String.format("%-19s%-15s%-8s","Category","Capital(RM)","Pending");
+            int choice = Util.printChoiceMenuNClearScreen("-----Donation list-----", formatted, catNames) - 1;
+
+            if (choice ==  cats.length) return;
+            
+            System.out.println();
+            Donation.printListHeader();
+            CategoryPool cat = FundRaiserSystem.categories.get( cats[choice] );
+            for (int i = 0; i < cat.getDonationList().size(); i++){
+                cat.getDonationList().get(i).printAsAList(i+1);
+            }
+            System.out.printf("\n%s%d%s\n","Enter ",cat.getDonationList().size()+1," to QUIT");
+            System.out.println("Enter an index to view the applicaiton details: ");
+            choice = Util.getInputOfRange(1, cat.getDonationList().size()+1) -1;
+            if (choice == cat.getDonationList().size() ) return;
+        
+
+            Util.clearScreen();
+            donationDetailControl(admin,cat.getDonationList().get(choice));
+        }
+    }
+
+    public static void donationDetailControl(Admin admin, Donation donation) {
+        
+        Scanner input = new Scanner(System.in);
+        System.out.printf("Category %s Balance: RM%.2f\n\n", donation.getCategory().getCategory(), donation.getCategory().getBalance() );
+        donation.printDetails();
+        String description;
+        int choice;
+        if (donation.getStatus().equals(ApplyStatus.PENDING_VERIFICATION)){
+            choice = Util.printChoiceMenuNClearScreen("", "Select your operation:", new String[]{"Approve","Reject","Back"});
+            if (choice == 1){
+                System.out.print("Enter description: ");
+                description = input.nextLine();
+                donation.setStatus(ApplyStatus.APPROVED_PENDING_TRANSACTION, description, admin);
+                Util.pressEnterToContinue();
+            }
+            else if(choice == 2){
+                System.out.print("Enter description: ");
+                description = input.nextLine();
+                donation.setStatus(ApplyStatus.REJECTED, description, admin);
+                Util.pressEnterToContinue();
+            }
+            else return;     
+        }
+        
+        else if (donation.getStatus().equals(ApplyStatus.APPROVED_PENDING_TRANSACTION)){
+            choice = Util.printChoiceMenuNClearScreen("", "Select your operation:", new String[]{"Make transaction","Back"});
+            if (choice == 2) return;
+            
+            System.out.print("Enter description: ");
+            description = input.nextLine();
+            donation.setStatus(ApplyStatus.TRANSACTION_SUCCESS, description, admin);
+            donation.getCategory().setBalance(donation.getCategory().getBalance() + donation.getPayment().getAmount());
+            Util.pressEnterToContinue();
+        }
+        
+        else if (donation.getStatus().equals(ApplyStatus.REJECTED)){
+            Util.pressEnterToContinue();
+        }
+
+        else {
+            Util.pressEnterToContinue();
+        }
+
+
+        FundRaiserSystem.saveCategory();
+        FundRaiserSystem.saveDonations();
+        Util.pressEnterToContinue();
+    }
+    
+    public static void ApplicationDetailControl(Admin admin, Application application, CategoryPool categories) {
+        Scanner input = new Scanner(System.in);
+        System.out.printf("Category %s Balance: RM%.2f\n\n", categories.getCategory(), categories.getBalance());
+        application.printDetails();
+        int choice;
+        String description;
+        
+        if (application.getStatus().equals(ApplyStatus.PENDING_VERIFICATION)){
+            
+            choice = Util.printChoiceMenuNClearScreen("", "Select your operation", new String[]{"Approve", "Reject", "Back"});
+            if (choice == 1){
+                System.out.print("Enter description: ");
+                description = input.nextLine();
+                application.setStatus(ApplyStatus.APPROVED_PENDING_TRANSACTION, description, admin);
+                Util.pressEnterToContinue();
+
+            }
+            else if (choice == 2){
+                System.out.print("Enter description: ");
+                description = input.nextLine();
+                application.setStatus(ApplyStatus.REJECTED, description, admin);
+                Util.pressEnterToContinue();
+            }
+            else return;
+        }
+        else if (application.getStatus().equals(ApplyStatus.APPROVED_PENDING_TRANSACTION)){
+            choice = Util.printChoiceMenuNClearScreen("", "Select your operation", new String[]{"Make Transaction", "Back"});
+            if (choice == 2) return;
+            
+            if(categories.getBalance() >= application.getRequestAmount()){
+                System.out.print("Enter description: ");
+                description = input.nextLine();
+                categories.setBalance(categories.getBalance()-application.getRequestAmount());
+                application.setStatus(ApplyStatus.TRANSACTION_SUCCESS, description, admin);
+                System.out.println("Successful ");
+                Util.pressEnterToContinue();
+            }
+            else {
+                System.out.println("Capital insufficient...sorry...");
+                Util.loadingAnimation("Returning to previous page");
+                return;
+            }
+            
+        }
+        else if (application.getStatus().equals(ApplyStatus.REJECTED)){
+            Util.pressEnterToContinue();
+            return ;
+        }
+        else {
+            Util.pressEnterToContinue();
+            return ;
+        }
+        FundRaiserSystem.saveApplications();
+        FundRaiserSystem.saveCategory();
         Util.pressEnterToContinue();
         return;
     }
 
+    
 }

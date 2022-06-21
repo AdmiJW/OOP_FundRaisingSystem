@@ -33,11 +33,7 @@ public class Util {
         System.out.flush();  
     }
 
-
-
-
-    public static int printChoiceMenu(String title,  String description, String[] choices) {
-        clearScreen();
+    public static int printChoiceMenuNClearScreen(String title,  String description, String[] choices) {
         if (title.length() != 0) printMenu(title);
 
         System.out.println();
@@ -49,6 +45,13 @@ public class Util {
         System.out.println();
 
         return getInputOfRange(1, choices.length);
+    }
+
+
+    public static int printChoiceMenu(String title,  String description, String[] choices) {
+        clearScreen();
+        return printChoiceMenuNClearScreen(title, description, choices);
+        
     }
 
     public static void printMenu(String title) {
